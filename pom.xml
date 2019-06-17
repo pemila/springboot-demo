@@ -6,6 +6,7 @@
         <module>boot-mybatis</module>
         <module>boot-JdbcTemplate</module>
         <module>boot-aop</module>
+        <module>boot-cache-redis</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
