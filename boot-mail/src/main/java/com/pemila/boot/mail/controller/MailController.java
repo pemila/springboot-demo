@@ -8,6 +8,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
@@ -21,6 +23,8 @@ public class MailController {
 
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private TemplateEngine templateEngine;
 
 
     @Value("${spring.mail.username}")
@@ -84,6 +88,54 @@ public class MailController {
             return e.getMessage();
         }
     }
+
+    /** 发送带图片的html邮件(注：QQ邮箱收到邮件后无法查看图片)*/
+    @GetMapping("/send/inlineMail")
+    public String sendInlineMail(){
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(TO);
+            helper.setSubject("图片邮件");
+            // 带html格式的内容
+            helper.setText("<html><body>图标如下：<img src='cid:img'/></body></html>",true);
+            //添加html内容中引用的图片，以cid标识
+            File file = new File(ClassLoader.getSystemClassLoader().getResource("static/11.jpg").getPath());
+            helper.addInline("img",new FileSystemResource(file));
+            mailSender.send(message);
+            return "发送成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    /** 发送thymeleaf模版邮件*/
+    @GetMapping("/send/templateMail")
+    public String sendTemplateMail(){
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(TO);
+            helper.setSubject("html模版邮件");
+            // 定义模版中的变量内容
+            Context context = new Context();
+            context.setVariable("code","666666");
+            // 将模版变量替换
+            String template = templateEngine.process("mailTemplate",context);
+            // 设置邮件内容
+            helper.setText(template,true);
+            mailSender.send(message);
+            return "发送成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+
 
 
 }
