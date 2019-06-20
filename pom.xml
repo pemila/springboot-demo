@@ -29,6 +29,7 @@
         <module>boot-aop</module>
         <module>boot-cache-redis</module>
         <module>boot-mail</module>
+        <module>boot-autoconfig</module>
     </modules>
 
     <dependencies>

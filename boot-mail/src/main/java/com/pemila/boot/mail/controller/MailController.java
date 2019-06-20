@@ -13,6 +13,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Objects;
 
 /**
  * @author 月在未央
@@ -79,7 +80,7 @@ public class MailController {
             helper.setSubject("带附件的邮件");
             helper.setText("<p style='color:#42b983'>请查看附件</p>",true);
             // 添加附件
-            File files = new File(ClassLoader.getSystemClassLoader().getResource("static/11.jpg").getPath());
+            File files = new File(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("static/11.jpg")).getPath());
             helper.addAttachment("设计图标.jpg",files);
             mailSender.send(message);
             return "发送成功";
@@ -101,7 +102,7 @@ public class MailController {
             // 带html格式的内容
             helper.setText("<html><body>图标如下：<img src='cid:img'/></body></html>",true);
             //添加html内容中引用的图片，以cid标识
-            File file = new File(ClassLoader.getSystemClassLoader().getResource("static/11.jpg").getPath());
+            File file = new File(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("static/11.jpg")).getPath());
             helper.addInline("img",new FileSystemResource(file));
             mailSender.send(message);
             return "发送成功";
