@@ -1,0 +1,7 @@
+# initialized
+org.springframework.context.ApplicationContextInitializer=\
+    com.pemila.boot.analysis.application.config.HelloApplicationContextInitializeImpl
+
+# listener
+org.springframework.context.ApplicationListener=\
+    com.pemila.boot.analysis.application.listener.AfterContextClosedListener
