@@ -30,6 +30,7 @@
         <module>boot-cache-redis</module>
         <module>boot-mail</module>
         <module>boot-autoconfig</module>
+        <module>boot-analysis-springapplication</module>
     </modules>
 
     <dependencies>

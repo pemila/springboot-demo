@@ -5,3 +5,7 @@ org.springframework.context.ApplicationContextInitializer=\
 # listener
 org.springframework.context.ApplicationListener=\
     com.pemila.boot.analysis.application.listener.AfterContextClosedListener
+
+# run listener
+org.springframework.boot.SpringApplicationRunListener=\
+    com.pemila.boot.analysis.application.listener.HelloApplicationListener
